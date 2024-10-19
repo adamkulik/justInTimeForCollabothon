@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using OverpassTurboHandler;
 using System.Diagnostics;
+using System.Drawing;
 using System.Text.Json;
 using System.Xml;
 using System.Xml.Linq;
@@ -47,7 +48,7 @@ namespace TransactionGeneratorAPI.Controllers
             string svgImage = System.IO.File.ReadAllText("/home/azureuser/outImage.svg");
             List<CountryTransactions> countryTransactions = JsonSerializer.Deserialize<List<CountryTransactions>>(report);
             List<float> percentageOfAllTransactions = new List<float>();
-            for(int i = 0; i < countryCodes.Length; i++)
+            for (int i = 0; i < countryCodes.Length; i++)
             {
                 float percentage = (float)countryTransactions[i].NumberOfTransactions / (float)transactions.Count * 100.0f;
                 percentageOfAllTransactions.Add(percentage);
@@ -58,15 +59,20 @@ namespace TransactionGeneratorAPI.Controllers
 
             // Znalezienie wszystkich elementów 'path' i ustawienie atrybutu 'fill' na 'blue'
             var pathElements = xmlDocument.SelectNodes("/*[name()=\"svg\"]/*[name()=\"g\"]/*[name()=\"path\"]");
-            foreach (var path in pathElements)
+            for (int i = 0; i < pathElements.Count; i++)
             {
                 XmlElement pathCasted;
-                pathCasted = (XmlElement)path;
-                pathCasted.SetAttribute("fill", "blue");
+                pathCasted = (XmlElement)pathElements[i];
+                float whiteColor = (100.0f - percentageOfAllTransactions[i]) * 255.0f;
+                int colorToInt = (int)whiteColor;
+                string hexValue = colorToInt.ToString("X");
+
+                pathCasted.SetAttribute("fill", "#" + hexValue + "FF" + hexValue);
             }
             // Zapisanie zmodyfikowanego pliku SVG
-            string newFilePath = "/home/azureuser/outImage.svg\"modified_Image.svg";
+            string newFilePath = "/home/azureuser/modified_Image.svg";
             xmlDocument.Save(newFilePath);
+            string returnSvgImage = System.IO.File.ReadAllText("/home/azureuser/modified_Image.svg");
             return Ok(svgImage);
         }
 

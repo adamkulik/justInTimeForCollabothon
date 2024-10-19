@@ -28,7 +28,7 @@ namespace OverpassTurboHandler
             queryBuilder.Append("[out:xml];\n(");
             foreach (string countryName in countryNames)
             {
-                queryBuilder.Append("rel[admin_level=2][\"ISO3166-1\"=\"" + countryName + "\"];");
+                queryBuilder.Append(GetCountryQuery(countryName));
             }
             queryBuilder.Append(");out geom;");
             requestDict.Add("data", queryBuilder.ToString());
@@ -37,6 +37,24 @@ namespace OverpassTurboHandler
             var response = _httpClient.PostAsync(endpointUri, requestContent).Result;
             response.EnsureSuccessStatusCode();
             return response.Content.ReadAsStringAsync().Result;
+        }
+
+        private string GetCountryQuery(string countryName)
+        {
+            Dictionary<string, string> countryCodeToQuery = new Dictionary<string, string>()
+            {
+                {"FR", "rel[admin_level=3][name=\"France métropolitaine\"];" },
+                {"NL", "rel[name=\"Europees Nederland\"];"},
+                {"ES", "rel[name=\"Zona Horaria de Europa/Madrid\"];" },
+                {"PT", "rel[name=\"Fuso Horário da Europa/Lisboa\"];" },
+                {"NO", "rel[name=\"Norge\"];"},
+
+            };
+            if (!countryCodeToQuery.ContainsKey(countryName))
+            {
+                return "rel[admin_level=2][\"ISO3166-1\"=\"" + countryName + "\"];";
+            }
+            else return countryCodeToQuery[countryName];
         }
     }
 }
