@@ -1,0 +1,22 @@
+@import "../../styles/_extension";
+
+.navbar {
+    display: flex; 
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: $first-background-color;
+    padding: 20px 40px 20px 40px;
+    width: 100vw;
+
+    font-size: larger;
+    &__icon {
+        width: 50px;
+        margin-right: auto;
+    }
+
+    &__link {
+        padding-left: calc(85px - 40px);
+        text-decoration: none;
+        color: $color;
+    }
+}

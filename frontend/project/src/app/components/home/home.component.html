@@ -1,0 +1,101 @@
+<section class="home">
+  <div class="home__block home__block--top" (dblclick)="OpeningMap()">
+    <h1 class="home__title--large" [ngClass]="{ 'fade-out': !isVisible, 'fade-in': isVisible }">Try our map!</h1>
+    <img class="home__icon" src="/assets/arrows-expand-up-right.svg" alt="icon" (click)="OpeningMap()">
+    <table class="home__table home__table--main">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Country</th>
+          <th>Value</th>
+          <th>totalSum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mainDataset; let i = index">
+          <td>{{this.i+1}}</td>
+          <td>{{ item.country }}</td>
+          <td>{{ item.numberOfTransactions| number }}</td>
+          <td>{{item.totalSum | number}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="home__block home__block--bottom">
+    
+    <div class="home__content">
+      <h2 class="home__title--small">Grahcs</h2>
+      <div class="home__item home__item--left">
+        <div class="home__item--top-left" style="display: block; width: 40vw; height: 40vh;">
+          <ngx-charts-bar-horizontal
+          [view]="viewForBar"
+          [scheme]="colorScheme"
+          [showDataLabel] = 'true'
+          [results]="forGrahcsDataset"
+          [gradient]="false"
+          [legend]="false"
+          [labels]="true"
+          [doughnut]="false"
+          [explodes]="false">
+          </ngx-charts-bar-horizontal>
+        </div>
+      </div>
+      
+      <table class="home__table home__table--bottom-left">
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>Value</th>
+            <th>totalSum</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of mainDataset; let i = index">
+            <td>{{this.i+1}}</td>
+            <td>{{ item.country }}</td>
+            <td>{{ item.numberOfTransactions| number }}</td>
+            <td>{{item.totalSum | number}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      <div class="home__item home__item--top-right">
+        <table class="home__table ">
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th>Value</th>
+              <th>totalSum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mainDataset; let i = index">
+              <td>{{this.i+1}}</td>
+              <td>{{ item.country }}</td>
+              <td>{{ item.numberOfTransactions| number }}</td>
+              <td>{{item.totalSum | number}}</td>
+            </tr>
+          </tbody>
+        </table>
+       </div>
+       
+       <div class="home__item--bottom-left" style="display: block; width: 100%; height: 200px;">
+        <ngx-charts-bar-vertical
+        [view]="viewForBar"
+        [scheme]="colorScheme"
+        [showDataLabel] = 'true'
+        [results]="forGrahcsDataset"
+        [gradient]="false"
+        [legend]="false"
+        [labels]="true"
+        [doughnut]="false"
+        [explodes]="false">
+        </ngx-charts-bar-vertical>
+      </div>
+    </div>
+  </div>
+</section>
+
+

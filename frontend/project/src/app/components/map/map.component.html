@@ -1,0 +1,15 @@
+<div class="map" (dblclick)="openHome()">
+    
+    <div class="map__container">
+        <div class="svg" [innerHTML]=this.svg></div>
+        <span class="map__mark"></span>
+    </div>
+
+    <div class="map__sidebar">
+        <ul *ngFor="let item of mainDataset">
+            <li>
+                {{item.country}}
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+.map {
+    display: flex;
+    height: 100vh;
+
+    &__container {
+        width: 70vw;
+        height: 100vh;
+        .map__pic {
+            width: 100%;
+            border-radius: 80%;
+        }
+    }
+
+    &__sidebar {
+        align-content: center;
+        justify-content: center;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 10px;
+    }
+}
