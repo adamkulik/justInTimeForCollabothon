@@ -1,4 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
+using OverpassTurboHandler;
+using System.Diagnostics;
+using System.Text.Json;
 using TransactionGeneratorAPI.Models;
 
 namespace TransactionGeneratorAPI.Controllers
@@ -24,6 +28,20 @@ namespace TransactionGeneratorAPI.Controllers
 
             string report = TransactionReportGenerator.GenerateReturningCustomerReport(transactions);
             return Ok(report);
+        }
+
+        [HttpGet("getSVGMap")]
+        public IActionResult GetSVGMap([FromQuery(Name = "seed")] int seed)
+        {
+            var postRequest = new Level2PostRequest("localhost", "12345");
+            var transactions = GenerateSampleTransactions(seed);
+            string report = TransactionReportGenerator.GenerateReport(transactions);
+            string[] countryCodes = transactions.Select(x => TransactionReportGenerator.ExtractCountryCodeFromIBAN(x.Customer.IBANNumber)).Distinct().ToArray();
+            string osmResult = postRequest.GetCountryBoundaries(countryCodes);
+            System.IO.File.WriteAllText("/home/azureuser/workingDir/mapData.osm", osmResult);
+            BashHelper.RunCommandWithBash("/home/azureuser/osmToSvg.sh");
+            string svgImage = System.IO.File.ReadAllText("/home/azureuser/workingDir/outImage.svg");
+            return Ok(svgImage);
         }
 
         // Funkcja pomocnicza do generowania przyk³adowych transakcji
