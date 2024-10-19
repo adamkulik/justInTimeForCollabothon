@@ -13,3 +13,6 @@
 /TransactionGeneratorAPI/Properties
 /TransactionGeneratorAPI/appsettings.Development.json
 /TransactionGeneratorAPI/appsettings.json
+/OverpassTurboHandler/.vs/ProjectEvaluation
+/TransactionGeneratorAPI/bin/Release/net8.0
+*.gz
