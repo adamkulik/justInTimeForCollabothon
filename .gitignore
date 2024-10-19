@@ -6,3 +6,13 @@
 /TransactionsReportGenerator/.vs
 /TransactionsReportGenerator/bin/Debug/net7.0
 /TransactionsReportGenerator/obj
+/TransactionGeneratorAPI/.vs/ProjectEvaluation
+/TransactionGeneratorAPI/.vs/TransactionGeneratorAPI/config
+/TransactionGeneratorAPI/.vs/TransactionGeneratorAPI/DesignTimeBuild
+/TransactionGeneratorAPI/.vs/TransactionGeneratorAPI/FileContentIndex
+/TransactionGeneratorAPI/.vs/TransactionGeneratorAPI/v17
+/TransactionGeneratorAPI/bin/Debug/net8.0
+/TransactionGeneratorAPI/obj/Debug/net8.0
+/TransactionGeneratorAPI/obj
+/TransactionGeneratorAPI/Properties
+*.json
