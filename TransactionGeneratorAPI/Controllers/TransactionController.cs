@@ -9,28 +9,28 @@ namespace TransactionGeneratorAPI.Controllers
     public class TransactionsController : ControllerBase
     {
         [HttpGet("country-report")]
-        public IActionResult GetCountryReport()
+        public IActionResult GetCountryReport([FromQuery(Name = "seed")] int seed)
         {
-            var transactions = GenerateSampleTransactions();
+            var transactions = GenerateSampleTransactions(seed);
 
             string report = TransactionReportGenerator.GenerateReport(transactions);
             return Ok(report);
         }
 
         [HttpGet("returning-customers-report")]
-        public IActionResult GetReturningCustomerReport()
+        public IActionResult GetReturningCustomerReport([FromQuery(Name = "seed")] int seed)
         {
-            var transactions = GenerateSampleTransactions();
+            var transactions = GenerateSampleTransactions(seed);
 
             string report = TransactionReportGenerator.GenerateReturningCustomerReport(transactions);
             return Ok(report);
         }
 
         // Funkcja pomocnicza do generowania przyk³adowych transakcji
-        private List<Transaction> GenerateSampleTransactions(int cid = 50)
+        private List<Transaction> GenerateSampleTransactions(int seed = 50)
         {
             List<Customer> customers = new();
-            Random random = new(cid);
+            Random random = new(seed);
             List<string> countryCodes = CountriesData.countryData.Keys.ToList();
 
             for (int i = 0; i < 20; i++)

@@ -7,3 +7,9 @@
 /TransactionsReportGenerator/bin/Debug/net7.0
 /TransactionsReportGenerator/obj
 /OverpassTurboHandler/.vs/OverpassTurboHandler
+/TransactionGeneratorAPI/.vs
+/TransactionGeneratorAPI/bin/Debug/net8.0
+/TransactionGeneratorAPI/obj
+/TransactionGeneratorAPI/Properties
+/TransactionGeneratorAPI/appsettings.Development.json
+/TransactionGeneratorAPI/appsettings.json
