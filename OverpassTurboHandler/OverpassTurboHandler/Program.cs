@@ -1,5 +1,7 @@
 ﻿using OverpassTurboHandler;
+using System;
 using System.Diagnostics;
+using System.IO;
 
 public class Program
 {
@@ -29,10 +31,13 @@ public class Program
             { "AT", "Austria" },
             { "LU", "Luxembourg" }
         };
-        string[] countryCodes = { "PL", "DE", "CZ", };
+        string[] countryCodes = { "PL", "DE", "CZ" };
         var postRequest = new Level2PostRequest("localhost", "12345");
         Stopwatch sw = Stopwatch.StartNew();
-        string a = postRequest.GetCountryBoundaries(countryNames.Keys.ToArray());
+        string osmResult = postRequest.GetCountryBoundaries(countryCodes);
+        File.WriteAllText("/home/azureuser/workingDir/mapData.osm", osmResult);
+        BashHelper.RunCommandWithBash("/home/azureuser/osmToSvg.sh");
+
         sw.Stop();
         Console.WriteLine(sw.Elapsed);
 

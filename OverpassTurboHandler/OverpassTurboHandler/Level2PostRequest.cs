@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace OverpassTurboHandler
             var requestDict = new Dictionary<string, string>();
 
             StringBuilder queryBuilder = new StringBuilder();
-            queryBuilder.Append("[out:json];\n(");
+            queryBuilder.Append("[out:xml];\n(");
             foreach (string countryName in countryNames)
             {
                 queryBuilder.Append("rel[admin_level=2][\"ISO3166-1\"=\"" + countryName + "\"];");
