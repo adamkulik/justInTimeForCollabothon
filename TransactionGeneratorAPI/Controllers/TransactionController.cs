@@ -33,7 +33,7 @@ namespace TransactionGeneratorAPI.Controllers
         [HttpGet("getSVGMap")]
         public IActionResult GetSVGMap([FromQuery(Name = "seed")] int seed)
         {
-            var postRequest = new Level2PostRequest("localhost", "12345");
+            var postRequest = new Level2PostRequest("172.17.0.2", "80");
             var transactions = GenerateSampleTransactions(seed);
             string report = TransactionReportGenerator.GenerateReport(transactions);
             string[] countryCodes = transactions.Select(x => TransactionReportGenerator.ExtractCountryCodeFromIBAN(x.Customer.IBANNumber)).Distinct().ToArray();
@@ -41,6 +41,13 @@ namespace TransactionGeneratorAPI.Controllers
             System.IO.File.WriteAllText("/home/azureuser/workingDir/mapData.osm", osmResult);
             BashHelper.RunCommandWithBash("/home/azureuser/osmToSvg.sh");
             string svgImage = System.IO.File.ReadAllText("/home/azureuser/workingDir/outImage.svg");
+            List<CountryTransactions> countryTransactions = JsonSerializer.Deserialize<List<CountryTransactions>>(report);
+            List<float> percentageOfAllTransactions = new List<float>();
+            for(int i = 0; i < countryCodes.Length; i++)
+            {
+                float percentage = (float)countryTransactions[i].NumberOfTransactions / (float)transactions.Count * 100.0f;
+                percentageOfAllTransactions.Add(percentage);
+            }
             return Ok(svgImage);
         }
 
