@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 using OverpassTurboHandler;
 using System.Diagnostics;
 using System.Text.Json;
+using System.Xml;
+using System.Xml.Linq;
 using TransactionGeneratorAPI.Models;
 
 namespace TransactionGeneratorAPI.Controllers
@@ -34,13 +36,15 @@ namespace TransactionGeneratorAPI.Controllers
         public IActionResult GetSVGMap([FromQuery(Name = "seed")] int seed)
         {
             var postRequest = new Level2PostRequest("172.17.0.2", "80");
+            //var postRequest = new Level2PostRequest("localhost", "80");
             var transactions = GenerateSampleTransactions(seed);
             string report = TransactionReportGenerator.GenerateReport(transactions);
             string[] countryCodes = transactions.Select(x => TransactionReportGenerator.ExtractCountryCodeFromIBAN(x.Customer.IBANNumber)).Distinct().ToArray();
             string osmResult = postRequest.GetCountryBoundaries(countryCodes);
             System.IO.File.WriteAllText("/home/azureuser/workingDir/mapData.osm", osmResult);
             BashHelper.RunCommandWithBash("/home/azureuser/osmToSvg.sh");
-            string svgImage = System.IO.File.ReadAllText("/home/azureuser/workingDir/outImage.svg");
+            //string svgImage = System.IO.File.ReadAllText("C:\\Users\\Kinga\\source\\repos\\justInTimeForCollabothon\\TransactionGeneratorAPI\\outImage.svg");
+            string svgImage = System.IO.File.ReadAllText("/home/azureuser/outImage.svg");
             List<CountryTransactions> countryTransactions = JsonSerializer.Deserialize<List<CountryTransactions>>(report);
             List<float> percentageOfAllTransactions = new List<float>();
             for(int i = 0; i < countryCodes.Length; i++)
@@ -48,6 +52,21 @@ namespace TransactionGeneratorAPI.Controllers
                 float percentage = (float)countryTransactions[i].NumberOfTransactions / (float)transactions.Count * 100.0f;
                 percentageOfAllTransactions.Add(percentage);
             }
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load("/home/azureuser/outImage.svg");
+            // Przestrzeñ nazw SVG
+
+            // Znalezienie wszystkich elementów 'path' i ustawienie atrybutu 'fill' na 'blue'
+            var pathElements = xmlDocument.SelectNodes("/*[name()=\"svg\"]/*[name()=\"g\"]/*[name()=\"path\"]");
+            foreach (var path in pathElements)
+            {
+                XmlElement pathCasted;
+                pathCasted = (XmlElement)path;
+                pathCasted.SetAttribute("fill", "blue");
+            }
+            // Zapisanie zmodyfikowanego pliku SVG
+            string newFilePath = "/home/azureuser/outImage.svg\"modified_Image.svg";
+            xmlDocument.Save(newFilePath);
             return Ok(svgImage);
         }
 

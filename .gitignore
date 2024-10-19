@@ -26,3 +26,5 @@
 /OverpassTurboHandler/OverpassTurboHandler/obj/Release/net8.0/linux-x64
 /OverpassTurboHandler/OverpassTurboHandler/obj
 /TransactionGeneratorAPI/images
+/TransactionGeneratorAPI/modified_Image.svg
+/TransactionGeneratorAPI/outImage.svg
