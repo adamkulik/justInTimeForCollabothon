@@ -20,9 +20,16 @@ export class MapComponent implements OnInit{
   }[] | undefined;
   constructor(private router : Router, private countrieServise : CountriesService, private http : HttpClient, public sanitizer: DomSanitizer) {
   }
+  isVisible : boolean = true;
+  disappearing() {
+    this.isVisible = !this.isVisible;
+  }
 
  svg!: SafeHtml;
  svgCode!: string;
+
+ polandData=[{name: "Poland"}, {numberOfTransactions: 33345}, {totalSum: 435355} ];
+
   ngOnInit(): void {
 
     this.countrieServise.getMap().subscribe(
@@ -48,6 +55,17 @@ export class MapComponent implements OnInit{
           numberOfTransactions: country.NumberOfTransactions,
           totalSum: country.TotalSum
         }));
+  // // Find the data for Poland
+  // const polandData = this.mainDataset.find(item => item.country === 'Poland');
+
+  // // If Poland data is found, assign it to this.polandData
+  // if (polandData) {
+  //   this.polandData2.push(polandData); // Now it's stored in an array
+  //   console.log('Poland Data:', this.polandData2); // Log to verify
+  // } else {
+  //   console.log('No data found for Poland');
+  // }
+
       },
       (error) => {
         // Handle error response here

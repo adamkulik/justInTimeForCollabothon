@@ -1,13 +1,41 @@
+@import '../../styles/_extension';
+
 .map {
     display: flex;
     height: 100vh;
-
+    background-color: #3A7E8A;
     &__container {
         width: 70vw;
         height: 100vh;
         .map__pic {
             width: 100%;
             border-radius: 80%;
+        }
+        .map__mark {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #304D4A;
+            border-radius: 50%;
+
+            &--poland {
+                top: 400px;
+                left: 550px;
+            }
+            
+            &--germany {
+                top: 402px;
+                left: 400px;
+            }
+        }
+        .map__countryDesc
+        {
+            position: absolute;
+
+            &--poland {
+                top: 380px;
+                left: 496px;
+            }
         }
     }
 

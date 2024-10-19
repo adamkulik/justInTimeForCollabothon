@@ -4,6 +4,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { LayoutComponent } from '../../components/layout/layout.component';
 import { HomeComponent } from '../../components/home/home.component';
 import { MapComponent } from '../../components/map/map.component';
+import { CommonModule } from '@angular/common';
 
 
 const routes: Routes = [{
@@ -14,8 +15,9 @@ const routes: Routes = [{
 }]
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [HomeComponent, MapComponent],
   imports: [
+    CommonModule,
     RouterModule.forRoot(routes),
     NgxChartsModule
   ],

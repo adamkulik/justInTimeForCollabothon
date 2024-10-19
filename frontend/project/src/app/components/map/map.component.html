@@ -1,14 +1,22 @@
 <div class="map" (dblclick)="openHome()">
     
     <div class="map__container">
-        <div class="svg" [innerHTML]=this.svg></div>
-        <span class="map__mark"></span>
+        <div class="map__svg" [innerHTML]=this.svg ></div>
+
+        <span class="map__mark map__mark--poland" (click)="disappearing()"></span>
+        <!-- <div [ngIf]="this.isVisible">
+            <div class="map__countryDesc map__countryDesc--poland" *ngFor="let item of polandData">
+                <p>{{item.name}} <br> Transaction: {{item.numberOfTransactions}}</p>
+            </div>
+        </div> -->
+
+        <span class="map__mark map__mark--germany"></span>
     </div>
 
     <div class="map__sidebar">
         <ul *ngFor="let item of mainDataset">
             <li>
-                {{item.country}}
+                {{item.country}} : {{item.totalSum}}
             </li>
         </ul>
     </div>
