@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\adamk\source\repos\justInTimeForCollabothon\TransactionGeneratorAPI\bin\Release\net8.0\publish\</_PublishTargetUrl>
+    <History>True|2024-10-19T20:36:49.7077776Z||;False|2024-10-19T22:34:52.8949643+02:00||;False|2024-10-19T22:34:36.5346647+02:00||;True|2024-10-19T13:38:18.8963054+02:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

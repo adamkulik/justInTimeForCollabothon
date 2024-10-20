@@ -41,11 +41,13 @@ namespace TransactionGeneratorAPI.Controllers
             var transactions = GenerateSampleTransactions(seed);
             string report = TransactionReportGenerator.GenerateReport(transactions);
             string[] countryCodes = transactions.Select(x => TransactionReportGenerator.ExtractCountryCodeFromIBAN(x.Customer.IBANNumber)).Distinct().ToArray();
+            string[] hexCodes = ColorGradientGenerator.GenerateHexGradient(100);
             string osmResult = postRequest.GetCountryBoundaries(countryCodes);
             System.IO.File.WriteAllText("/home/azureuser/workingDir/mapData.osm", osmResult);
             BashHelper.RunCommandWithBash("/home/azureuser/osmToSvg.sh");
             //string svgImage = System.IO.File.ReadAllText("C:\\Users\\Kinga\\source\\repos\\justInTimeForCollabothon\\TransactionGeneratorAPI\\outImage.svg");
             string svgImage = System.IO.File.ReadAllText("/home/azureuser/outImage.svg");
+            //string svgImage = System.IO.File.ReadAllText(@"E:\outImage.svg");
             List<CountryTransactions> countryTransactions = JsonSerializer.Deserialize<List<CountryTransactions>>(report);
             List<float> percentageOfAllTransactions = new List<float>();
             for (int i = 0; i < countryCodes.Length; i++)
@@ -63,18 +65,34 @@ namespace TransactionGeneratorAPI.Controllers
             {
                 XmlElement pathCasted;
                 pathCasted = (XmlElement)pathElements[i];
-                float whiteColor = (100.0f - percentageOfAllTransactions[i]) * 255.0f;
-                int colorToInt = (int)whiteColor;
-                string hexValue = colorToInt.ToString("X");
+                string hexValue;
+                if (i < percentageOfAllTransactions.Count)
+                {
+                    int colorIndex = (int)percentageOfAllTransactions[i] * 4;
+                    if (colorIndex > 100) colorIndex = 100;
+                    hexValue = hexCodes[100 - colorIndex];
+                }
+                else
+                {
+                    hexValue = "#FFFFFF";
+                }
 
-                pathCasted.SetAttribute("fill", "#" + hexValue + "FF" + hexValue);
+
+                pathCasted.SetAttribute("fill", hexValue);
             }
             // Zapisanie zmodyfikowanego pliku SVG
             string newFilePath = "/home/azureuser/modified_Image.svg";
             xmlDocument.Save(newFilePath);
             string returnSvgImage = System.IO.File.ReadAllText("/home/azureuser/modified_Image.svg");
-            return Ok(svgImage);
+            return Ok(returnSvgImage);
         }
+        /* [HttpGet("getShapesNumberForCountries")]
+         public IActionResult GetShapesNumberForCountries()
+         {
+             List<string> countries = CountriesData.countryNames.Keys.ToList();
+
+
+         }*/
 
         // Funkcja pomocnicza do generowania przyk³adowych transakcji
         private List<Transaction> GenerateSampleTransactions(int seed = 50)

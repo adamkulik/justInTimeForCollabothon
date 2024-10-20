@@ -24,8 +24,10 @@
         { "IE", (22, 4, 14) },  // Ireland
         { "CH", (21, 5, 12) },  // Switzerland
         { "AT", (20, 5, 11) },  // Austria
-        { "LU", (20, 3, 13) }   // Luxembourg
+        { "LU", (20, 3, 13) },   // Luxembourg
+        { "UA", (29, 6, 19) }  // Ukraine
     };
+
 
         // A dictionary to store country codes and their corresponding full country names
         public static readonly Dictionary<string, string> countryNames =
@@ -50,7 +52,8 @@
         { "IE", "Ireland" },
         { "CH", "Switzerland" },
         { "AT", "Austria" },
-        { "LU", "Luxembourg" }
+        { "LU", "Luxembourg" },
+        { "UA", "Ukraine" }
         };
     }
 }
